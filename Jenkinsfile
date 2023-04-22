@@ -1,9 +1,21 @@
+def gv
 pipeline {
     agent any
+    environment {
+        SERVER_CREDENTIALS = credentials ('server-credentials')
+    }
     stages {
+        stage ("init") {
+            steps {
+                gv = load "script.groovy"
+            }
+        }
         stage("build"){
             steps {
-                echo 'building the app ...'
+
+               gv.buildApp()
+                // echo 'building the app ...'
+                // echo "deploying with ${SERVER_CREDENTIALS}"
             }
         }
         stage("test"){
