@@ -12,8 +12,10 @@ pipeline {
         }
         stage("build"){
             steps {
+                script {
+                    gv.buildApp()
+                }
 
-               gv.buildApp()
                 // echo 'building the app ...'
                 // echo "deploying with ${SERVER_CREDENTIALS}"
             }
