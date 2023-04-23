@@ -1,25 +1,23 @@
-def gv
 pipeline {
     agent any
-    environment {
-        SERVER_CREDENTIALS = credentials ('server-credentials')
+    tools {
+        maven 'maven-3.8.6'
     }
     stages {
-        stage ("init") {
+        stage ("build jar") {
             steps {
                 script {
-                    gv = load "script.groovy"
+                    echo 'building the application'
+                    sh 'mvn package'
                 }
             }
         }
-        stage("build"){
+        stage("build docker image"){
             steps {
-                script {
-                    gv.buildApp()
+               script {
+                    echo 'building the docker image'
+                    sh 'mvn package'
                 }
-
-                // echo 'building the app ...'
-                // echo "deploying with ${SERVER_CREDENTIALS}"
             }
         }
         stage("test"){
@@ -28,13 +26,7 @@ pipeline {
             }
         }
         stage("deploy"){
-            input {
-                message 'select the enivironment to deploy to'
-                ok "Done Bro"
-                parameters {
-                    choice (name:'ENV',choices : ['dev','prod','staging'],description:'')
-                }
-            }
+            
             steps{
                 echo 'deploying the app ...'
                 echo "deploying to ${ENV}"
