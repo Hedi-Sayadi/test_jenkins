@@ -3,7 +3,9 @@ pipeline {
     tools {
         maven 'maven-3.8.6' 
     }
-    
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('docker-hub-credentials')
+    } 
     stages {
         stage ("build jar") {
             steps {
@@ -17,9 +19,10 @@ pipeline {
             steps {
                script {
                     echo 'building the docker image'
-                    withCredentials([useramePassword(credentialsId:'docker-hub-credentials',passwordVariable:'PASS',usenameVariable:'USER')]){
+                    // withCredentials([useramePassword(credentialsId:'docker-hub-credentials',passwordVariable:'PASS',usenameVariable:'USER')]){
                         sh 'docker build -t hedisayadi/test_CICD:1.0 .'
-                        sh "echo $PASS | docker login -u $USER --password -stdin"
+                        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                        // sh "echo $PASS | docker login -u $USER --password -stdin"
                         sh 'docker push hedisayadi/test_CICD:1.0'
                     }
                 }
