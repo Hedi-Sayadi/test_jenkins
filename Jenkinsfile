@@ -1,8 +1,9 @@
 pipeline {
     agent any
     tools {
-        maven 'maven-3.8.6'
+        maven 'maven-3.8.6' 
     }
+    
     stages {
         stage ("build jar") {
             steps {
@@ -16,7 +17,7 @@ pipeline {
             steps {
                script {
                     echo 'building the docker image'
-                    sh 'mvn package'
+                    // sh 'mvn package'
                 }
             }
         }
@@ -29,7 +30,7 @@ pipeline {
             
             steps{
                 echo 'deploying the app ...'
-                echo "deploying to ${ENV}"
+                // echo "deploying to ${ENV}"
             }
         }
     }
