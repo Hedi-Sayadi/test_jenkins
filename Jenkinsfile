@@ -24,7 +24,7 @@ pipeline {
                         sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
                         // sh "echo $PASS | docker login -u $USER --password -stdin"
                         sh 'docker push hedisayadi/test_CICD:1.0'
-                    }
+                    // }
                 }
             }
         }
