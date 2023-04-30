@@ -20,21 +20,11 @@ pipeline {
         stage("build docker image"){
             steps {
                script {
-                    // echo 'building the docker image'
-                    // // withCredentials([useramePassword(credentialsId:'docker-hub-credentials',passwordVariable:'PASS',usenameVariable:'USER')]){
                          sh 'docker build -t hedisayadi/test_cicd:1.0 .'
                          sh 'export DOCKER_CLIENT_TIMEOUT=120'
-                        // sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
                          sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-
-                    //     // sh "echo $PASS | docker login -u $USER --password -stdin"
                         sh 'docker push hedisayadi/test_cicd:1.0'
-                    // // }
-        //                 echo 'Building the Docker image...'
-        //                 docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-        //                 def image = docker.build(IMAGE_NAME)
-        //                 image.push()
-        //   }
+       
                 }
             }
         }
@@ -47,7 +37,6 @@ pipeline {
             
             steps{
                 echo 'deploying the app ...'
-                // echo "deploying to ${ENV}"
             }
         }
     }
